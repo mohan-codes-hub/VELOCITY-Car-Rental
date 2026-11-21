@@ -6,8 +6,8 @@ const router = express.Router();
 
 const cookieOptions = {
   httpOnly: true,
-  secure: false,
-  sameSite: "lax",
+  secure: true,
+  sameSite: "none",
   maxAge: 8 * 60 * 60 * 1000,
 };
 
@@ -52,23 +52,36 @@ router.get("/verify", (req, res) => {
     const token = req.cookies.velocity_admin;
 
     if (!token) {
-      return res.status(401).json({ authenticated: false });
+      return res.status(401).json({
+        authenticated: false,
+      });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET
+    );
 
     if (decoded.role !== "admin") {
-      return res.status(401).json({ authenticated: false });
+      return res.status(401).json({
+        authenticated: false,
+      });
     }
 
     res.json({ authenticated: true });
   } catch (error) {
-    res.status(401).json({ authenticated: false });
+    res.status(401).json({
+      authenticated: false,
+    });
   }
 });
 
 router.post("/logout", (req, res) => {
-  res.clearCookie("velocity_admin", cookieOptions);
+  res.clearCookie("velocity_admin", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
 
   res.json({
     success: true,

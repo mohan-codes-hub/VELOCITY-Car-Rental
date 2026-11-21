@@ -1,9 +1,11 @@
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./AdminLogin.css";
 
-const API_URL = "http://localhost:5000/api/auth";
+const SERVER_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+const API_URL = `${SERVER_URL}/api/auth`;
 
 function AdminLogin() {
   const [username, setUsername] = useState("");
@@ -25,7 +27,10 @@ function AdminLogin() {
           "Content-Type": "application/json",
         },
         credentials: "include",
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({
+          username,
+          password,
+        }),
       });
 
       const data = await response.json();
@@ -50,15 +55,20 @@ function AdminLogin() {
 
       <div className="admin-login-card">
         <h1>VELOCITY</h1>
-        <span className="login-subtitle">ADMINISTRATION PORTAL</span>
+
+        <span className="login-subtitle">
+          ADMINISTRATION PORTAL
+        </span>
 
         <div className="login-divider"></div>
 
         <h2>Welcome Back</h2>
+
         <p>Sign in to access your dashboard</p>
 
         <form onSubmit={handleLogin}>
           <label>USERNAME</label>
+
           <input
             type="text"
             placeholder="Enter admin username"
@@ -68,6 +78,7 @@ function AdminLogin() {
           />
 
           <label>PASSWORD</label>
+
           <input
             type="password"
             placeholder="Enter admin password"
@@ -76,7 +87,11 @@ function AdminLogin() {
             required
           />
 
-          {error && <div className="login-error">{error}</div>}
+          {error && (
+            <div className="login-error">
+              {error}
+            </div>
+          )}
 
           <button type="submit" disabled={loading}>
             {loading ? "SIGNING IN..." : "SIGN IN →"}
