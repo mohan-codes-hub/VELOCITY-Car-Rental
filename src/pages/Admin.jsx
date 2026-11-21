@@ -28,9 +28,11 @@ import {
 } from "lucide-react";
 import "./Admin.css";
 
-const API_URL = "http://localhost:5000/api/cars";
-const BOOKING_API = "http://localhost:5000/api/bookings";
-const SERVER_URL = "http://localhost:5000";
+const SERVER_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+const API_URL = `${SERVER_URL}/api/cars`;
+const BOOKING_API = `${SERVER_URL}/api/bookings`;
 
 const emptyForm = {
   name: "",
