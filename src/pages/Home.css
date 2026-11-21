@@ -1,0 +1,120 @@
+
+.home-page {
+  width: 100%;
+  height: 100vh;
+  min-height: 650px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    #e9edf0,
+    #dce4e9,
+    #f8f5ef
+  );
+  color: #172535;
+
+  border: none;
+  outline: none;
+  box-shadow: none;
+  margin-bottom: -2px;
+  isolation: isolate;
+}
+
+.home-heading {
+  position: absolute;
+  top: 7%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.home-heading span {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 6px;
+  color: #8a7048;
+  margin-bottom: 12px;
+}
+
+.velocity-logo {
+  font-size: clamp(24px, 3vw, 38px);
+  font-weight: 900;
+  letter-spacing: 12px;
+  color: #182b3b;
+  margin-bottom: 28px;
+}
+
+.home-heading h1 {
+  font-size: clamp(36px, 5vw, 68px);
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1;
+  color: #172535;
+}
+
+.home-heading p {
+  margin-top: 16px;
+  font-size: 10px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  color: #687987;
+}
+
+.car-canvas {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 2;
+}
+
+/* Soft smoke transition between Home and Story */
+
+.home-page::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 200px;
+  z-index: 4;
+  pointer-events: none;
+
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255, 253, 247, 0.18) 25%,
+    rgba(255, 253, 247, 0.55) 60%,
+    #fffdf7 100%
+  );
+
+  filter: blur(18px);
+}
+
+@media (max-width: 768px) {
+  .home-heading {
+    top: 9%;
+    padding: 0 12px;
+  }
+
+  .velocity-logo {
+    letter-spacing: 7px;
+    margin-bottom: 22px;
+  }
+
+  .home-heading h1 {
+    font-size: 36px;
+  }
+
+  .home-heading p {
+    font-size: 9px;
+    letter-spacing: 2px;
+  }
+
+  .home-page::after {
+    height: 150px;
+  }
+}

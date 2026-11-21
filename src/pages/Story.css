@@ -1,0 +1,404 @@
+
+.story-page {
+  width: 100%;
+  height: 100svh;
+  min-height: 550px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 45%,
+      #fffef9 0%,
+      #f5f0e6 55%,
+      #ded8ca 100%
+    );
+
+  color: #20211f;
+  isolation: isolate;
+}
+
+/* Background light */
+
+.story-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: #d8b46b35;
+  filter: blur(110px);
+  animation: glowMove 7s ease-in-out infinite alternate;
+}
+
+/* Smoke effect */
+
+.story-smoke {
+  position: absolute;
+  width: 55vw;
+  height: 250px;
+  border-radius: 50%;
+  background: #ffffff65;
+  filter: blur(75px);
+  pointer-events: none;
+}
+
+.smoke-one {
+  left: -15%;
+  top: 15%;
+  animation: smokeMove 9s ease-in-out infinite alternate;
+}
+
+.smoke-two {
+  right: -15%;
+  bottom: 10%;
+  animation: smokeMove 11s ease-in-out infinite alternate-reverse;
+}
+
+/* Top and bottom labels */
+
+.story-top-label,
+.story-bottom-label {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 6px;
+  color: #947747;
+}
+
+.story-top-label {
+  top: 45px;
+  opacity: 0;
+}
+
+.story-page.is-active .story-top-label {
+  animation: fadeDown 1s ease both;
+}
+
+.story-bottom-label {
+  bottom: 35px;
+  opacity: 0;
+}
+
+.story-page.is-active .story-bottom-label {
+  animation: fadeUp 1.5s ease both;
+}
+
+/* Main content */
+
+.story-content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+}
+
+.story-small-title {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 9px;
+  color: #947747;
+  margin-bottom: 35px;
+  opacity: 0;
+}
+
+.story-page.is-active .story-small-title {
+  animation: fadeDown 1s ease both;
+}
+
+/* Main heading */
+
+.story-heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: clamp(45px, 10vw, 135px);
+  font-weight: 900;
+  letter-spacing: 2px;
+  line-height: 1.1;
+}
+
+/* Individual letters */
+
+.story-letter {
+  display: inline-block;
+  position: relative;
+
+  background: linear-gradient(
+    135deg,
+    #493318,
+    #a77b31,
+    #f0d18a,
+    #8c6426,
+    #382511
+  );
+
+  background-size: 250% 250%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+
+  opacity: 0;
+}
+
+.story-page.is-active .story-letter {
+  animation:
+    letterDrop 1.2s cubic-bezier(.18,.89,.32,1.35) forwards,
+    letterShine 5s ease-in-out infinite;
+
+  animation-delay: calc(var(--i) * 0.09s);
+}
+
+/* Letter falling animation */
+
+@keyframes letterDrop {
+  0% {
+    opacity: 0;
+    transform:
+      translate(
+        var(--random-x),
+        -110vh
+      )
+      rotate(var(--random-r))
+      scale(2.2);
+
+    filter: blur(18px);
+  }
+
+  45% {
+    opacity: 1;
+    transform:
+      translate(
+        calc(var(--random-x) * -0.2),
+        35px
+      )
+      rotate(-12deg)
+      scale(1.15);
+
+    filter: blur(0);
+  }
+
+  70% {
+    transform:
+      translate(0, -15px)
+      rotate(5deg)
+      scale(0.95);
+  }
+
+  100% {
+    opacity: 1;
+    transform:
+      translate(0, 0)
+      rotate(0)
+      scale(1);
+
+    filter: blur(0);
+  }
+}
+
+/* Gold shine */
+
+@keyframes letterShine {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Gold line */
+
+.story-gold-line {
+  width: 0;
+  height: 2px;
+  margin: 32px auto;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #a77b31,
+    #f2d28b,
+    #a77b31,
+    transparent
+  );
+}
+
+.story-page.is-active .story-gold-line {
+  animation: lineExpand 1.2s ease 1.8s forwards;
+}
+
+@keyframes lineExpand {
+  to {
+    width: min(380px, 75%);
+  }
+}
+
+/* Description */
+
+.story-description {
+  font-family: Arial, sans-serif;
+  font-size: clamp(15px, 2.2vw, 24px);
+  font-weight: 800;
+  letter-spacing: 7px;
+  color: #353128;
+  opacity: 0;
+}
+
+.story-page.is-active .story-description {
+  animation: fadeUp 1s ease 2s forwards;
+}
+
+.story-description span {
+  color: #a47b35;
+}
+
+/* Performance details */
+
+.story-details {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin-top: 45px;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: #8b7651;
+
+  opacity: 0;
+}
+
+.story-page.is-active .story-details {
+  animation: fadeUp 1s ease 2.4s forwards;
+}
+
+.story-details i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #b38b46;
+}
+
+/* Background animations */
+
+@keyframes glowMove {
+  from {
+    transform: translate(-100px, -40px) scale(0.8);
+  }
+
+  to {
+    transform: translate(100px, 40px) scale(1.2);
+  }
+}
+
+@keyframes smokeMove {
+  from {
+    transform: translateX(-80px) scale(0.9);
+    opacity: 0.3;
+  }
+
+  to {
+    transform: translateX(80px) scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+/* Text reveal */
+
+@keyframes fadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile responsive */
+
+@media (max-width: 600px) {
+  .story-page {
+    min-height: 550px;
+  }
+
+  .story-top-label {
+    top: 30px;
+    font-size: 8px;
+    letter-spacing: 3px;
+  }
+
+  .story-small-title {
+    font-size: 9px;
+    letter-spacing: 5px;
+    margin-bottom: 30px;
+  }
+
+  .story-heading {
+    font-size: 10vw;
+    letter-spacing: 0;
+  }
+
+  .story-description {
+    font-size: 12px;
+    letter-spacing: 3px;
+    line-height: 1.8;
+  }
+
+  .story-details {
+    gap: 10px;
+    font-size: 8px;
+    letter-spacing: 1px;
+    margin-top: 35px;
+  }
+
+  .story-bottom-label {
+    bottom: 25px;
+    font-size: 8px;
+    letter-spacing: 3px;
+  }
+
+  .story-smoke {
+    width: 80vw;
+    height: 180px;
+  }
+}
+
+/* Reduced motion accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .story-page *,
+  .story-page *::before,
+  .story-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
