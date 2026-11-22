@@ -8,37 +8,51 @@ import {
 } from "lucide-react";
 import "./cars.css";
 
+const SERVER_URL = (
+  import.meta.env.VITE_API_URL || "http://localhost:5000"
+).replace(/\/$/, "");
+
+const API_URL = `${SERVER_URL}/api/cars`;
+
 function Cars() {
   const navigate = useNavigate();
+
   const [cars, setCars] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const loadCars = () => {
+    const loadCars = async () => {
       try {
-        const saved = JSON.parse(
-          localStorage.getItem("velocityCars") || "[]"
-        );
+        setLoading(true);
+        setError("");
 
-        setCars(saved);
-        setActiveIndex((current) =>
-          saved.length
-            ? Math.min(current, saved.length - 1)
-            : 0
-        );
-      } catch {
+        const response = await fetch(API_URL);
+
+        if (!response.ok) {
+          throw new Error("Unable to load cars");
+        }
+
+        const data = await response.json();
+
+        const carList = Array.isArray(data)
+          ? data
+          : data.cars || data.data || [];
+
+        setCars(carList);
+
+        setActiveIndex(0);
+      } catch (err) {
+        console.error("Cars loading error:", err);
+        setError("Unable to load cars. Please try again.");
         setCars([]);
+      } finally {
+        setLoading(false);
       }
     };
 
     loadCars();
-    window.addEventListener("storage", loadCars);
-    window.addEventListener("focus", loadCars);
-
-    return () => {
-      window.removeEventListener("storage", loadCars);
-      window.removeEventListener("focus", loadCars);
-    };
   }, []);
 
   const moveCar = (step) => {
@@ -48,6 +62,22 @@ function Cars() {
       (current + step + cars.length) % cars.length
     );
   };
+
+  if (loading) {
+    return (
+      <section className="velocity-showroom">
+        <p className="empty-cars">Loading cars...</p>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="velocity-showroom">
+        <p className="empty-cars">{error}</p>
+      </section>
+    );
+  }
 
   if (!cars.length) {
     return (
@@ -59,12 +89,22 @@ function Cars() {
           </div>
           <h1>FIND YOUR NEXT DRIVE</h1>
         </header>
-        <p className="empty-cars">Add your cars from Admin.</p>
+
+        <p className="empty-cars">
+          No cars available at the moment.
+        </p>
       </section>
     );
   }
 
   const car = cars[activeIndex];
+
+  const imageUrl = car.image
+    ? car.image.startsWith("http") ||
+      car.image.startsWith("data:")
+      ? car.image
+      : `${SERVER_URL}/${car.image.replace(/^\/+/, "")}`
+    : "";
 
   return (
     <section className="velocity-showroom">
@@ -80,7 +120,6 @@ function Cars() {
 
       <main className="showroom-main">
 
-        {/* LEFT OUTER ARROW */}
         <button
           className="edge-arrow edge-arrow-left"
           onClick={() => moveCar(-1)}
@@ -90,7 +129,6 @@ function Cars() {
           <ChevronLeft size={25} />
         </button>
 
-        {/* LEFT CAR DETAILS */}
         <div className="selected-car-info">
 
           <div className="car-information">
@@ -98,7 +136,7 @@ function Cars() {
               NOW IN FOCUS
             </span>
 
-            <h2 key={car.id}>{car.name}</h2>
+            <h2 key={car._id || car.id}>{car.name}</h2>
             <h3>{car.model}</h3>
 
             <div className="selected-car-specs">
@@ -134,7 +172,7 @@ function Cars() {
               }`}
             >
               <span className="status-dot"></span>
-              {car.availability}
+              {car.availability || "Unavailable"}
             </span>
           </div>
 
@@ -157,16 +195,15 @@ function Cars() {
 
         </div>
 
-        {/* RIGHT CAR IMAGE - NO FRAME */}
         <div className="showroom-stage">
           <div className="car-image-area">
 
             <div className="car-image-glow"></div>
 
             <img
-              key={car.id ?? activeIndex}
+              key={car._id || car.id || activeIndex}
               className="showroom-car-image"
-              src={car.image}
+              src={imageUrl}
               alt={car.name}
             />
 
@@ -183,7 +220,6 @@ function Cars() {
           </div>
         </div>
 
-        {/* RIGHT OUTER ARROW */}
         <button
           className="edge-arrow edge-arrow-right"
           onClick={() => moveCar(1)}
