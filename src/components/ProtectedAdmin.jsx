@@ -10,7 +10,7 @@ function ProtectedAdmin({ children }) {
     const verifyAdmin = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/auth/verify",
+          `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/verify`,
           {
             credentials: "include",
           }
