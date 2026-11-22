@@ -138,11 +138,12 @@
 
 @media (max-width: 600px) {
   .experience-page {
-    height: 500vh;
+    height: 400vh;
   }
 
   .experience-sticky {
-    min-height: 520px;
+    height: 100svh;
+    min-height: 580px;
   }
 
   .experience-heading {
@@ -154,48 +155,66 @@
 
   .experience-label {
     font-size: 9px;
-    letter-spacing: 4px;
-    margin-bottom: 14px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
   }
 
   .experience-heading h1 {
-    font-size: clamp(32px, 9vw, 48px);
-    letter-spacing: -1.5px;
+    font-size: clamp(30px, 8vw, 43px);
+    letter-spacing: -1px;
+    line-height: 1.1;
   }
 
   .experience-heading p {
-    font-size: 9px;
-    letter-spacing: 2.5px;
+    font-size: 8px;
+    letter-spacing: 2px;
+    line-height: 1.5;
     margin-top: 12px;
   }
 
   .experience-watermark {
-    top: 53%;
-    font-size: 105vw;
+    top: 55%;
+    font-size: 100vw;
+  }
+
+  .experience-canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  .experience-canvas canvas {
+    width: 100% !important;
+    height: 100% !important;
   }
 
   .experience-footer {
     bottom: 5%;
     left: 6%;
     right: 6%;
-    font-size: 8px;
-    letter-spacing: 2px;
+    font-size: 7px;
+    letter-spacing: 1.5px;
+    gap: 10px;
   }
 }
 
-/* Small mobile */
+/* Small Mobile */
 
-@media (max-width: 360px) {
+@media (max-width: 380px) {
   .experience-heading h1 {
     font-size: 29px;
   }
 
   .experience-heading p {
     font-size: 8px;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
+  }
+
+  .experience-watermark {
+    font-size: 95vw;
   }
 
   .experience-footer {
-    font-size: 7px;
+    font-size: 6px;
+    letter-spacing: 1px;
   }
 }
